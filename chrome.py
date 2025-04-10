@@ -60,7 +60,6 @@ print("CNN homepage loaded.")
 
 
 # Extract URLs for three headline articles
-# This selector targets headlines (update if CNN's layout changes)
 headlines = cnn_driver.find_elements(By.CSS_SELECTOR, "a.container__title-url")
 article_urls = []
 for headline in headlines:
