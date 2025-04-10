@@ -41,3 +41,56 @@ time.sleep(20) # wait for video to load and play
 Close Browser
 """
 driver.quit()
+
+# =======================
+# CNN Interaction Session (New separate session)
+# =======================
+
+print("Starting CNN session...")
+
+
+# Set up and start a new session for CNN
+cnn_service = Service(ChromeDriverManager().install())
+cnn_driver = webdriver.Chrome(service=cnn_service)
+
+# Open CNN's homepage
+cnn_driver.get("https://www.cnn.com")
+time.sleep(5)  # Wait for the page to load
+print("CNN homepage loaded.")
+
+
+# Extract URLs for three headline articles
+# This selector targets headlines (update if CNN's layout changes)
+headlines = cnn_driver.find_elements(By.CSS_SELECTOR, "a.container__title-url")
+article_urls = []
+for headline in headlines:
+    href = headline.get_attribute("href")
+    if href:
+        article_urls.append(href)
+    if len(article_urls) >= 3:
+        break
+
+if not article_urls:
+    print("No headlines found. The CSS selector may need to be updated.")
+else:
+    print("Found article URLs:")
+    for url in article_urls:
+        print(url)
+
+# Open each article URL in a new browser tab
+for url in article_urls:
+    cnn_driver.execute_script("window.open('{}','_blank');".format(url))
+    time.sleep(5)  # Brief pause between opening tabs
+"""
+# or switch among the newly opened tabs and wait a bit on each
+tabs = cnn_driver.window_handles  # list of all open windows/tabs
+for handle in tabs[1:]:  # Skip the first tab (CNN homepage)
+    cnn_driver.switch_to.window(handle)
+    print("Switched to tab with URL:", cnn_driver.current_url)
+    time.sleep(5)  # Wait on the article page
+"""
+
+#close all browser tabs once done:
+#cnn_driver.quit()
+
+
