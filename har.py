@@ -6,12 +6,11 @@ from seleniumwire import webdriver
 # from selenium.webdriver.chrome.service import Service
 # from webdriver_manager.chrome import ChromeDriverManager
 import time
+import json, datetime, pathlib
 
 """
 Set up Chrome Driver
 """
-# service = Service(ChromeDriverManager().install())
-# driver = webdriver.Chrome(service=service)
 
 options = {
     'enable_har': True
@@ -28,7 +27,12 @@ time.sleep(20) # wait for page to load
 
 har = driver.har
 
-print(har)
+timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+outfile   = pathlib.Path(f"youtube_{timestamp}.har.json") 
+with outfile.open("w", encoding="utf-8") as f:
+    json.dump(har, f, indent=2)
+
+print(f"HAR written to {outfile.resolve()}")
 
 """
 Close Browser
