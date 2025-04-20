@@ -6,14 +6,13 @@ import os
 class HAR_chrome:
     driver = None
     start_time = None
-    profile_path = os.path.expanduser("~/Library/Application Support/Google/Chrome/")
+    user_data_dir = os.path.expanduser("~/Library/Application Support/Google/Chrome")
 
     def __init__(self, profile="Default"):
         chrome_options = webdriver.ChromeOptions()
         selenium_options = {"enable_har": True}
-        self.profile_path += profile
-        print(self.profile_path)
-        chrome_options.add_argument(f"--user-data-dir={self.profile_path}")
+        chrome_options.add_argument(f"--user-data-dir={self.user_data_dir}")
+        chrome_options.add_argument(f"--profile-directory={profile}")
         self.driver = webdriver.Chrome(
             options=chrome_options, seleniumwire_options=selenium_options
         )

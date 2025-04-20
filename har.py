@@ -1,7 +1,9 @@
 import time, pathlib
 from har_chrome import HAR_chrome
 
-chrome = HAR_chrome("Default 2")
+chrome = HAR_chrome(
+    "Default"
+)  # Put "Profile {num}" if you want to use another profile e.g. Profile 2
 
 """
 Visiting YouTube
