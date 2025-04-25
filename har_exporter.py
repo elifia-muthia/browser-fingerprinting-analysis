@@ -11,9 +11,11 @@ class HAR_Exporter:
 
     driver = None
     start_time = None
+    browser = None
 
     def __init__(self, browser, choose_profile=False):
         # list all profiles
+        self.browser = browser
         selenium_options = {"enable_har": True}
 
         if (browser == "chrome"):
@@ -109,7 +111,7 @@ class HAR_Exporter:
         file_path = path if path else os.getcwd()
         start_time_str = time.strftime("%Y%m%d-%H%M%S", self.start_time)
         end_time_str = time.strftime("%Y%m%d-%H%M%S", end_time)
-        file_path += f"/{start_time_str}-{end_time_str}.har"
+        file_path += f"/{self.browser}-{start_time_str}-{end_time_str}.har"
 
         with open(file_path, encoding="utf-8", mode="w") as f:
             f.write(har_data)
