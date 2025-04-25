@@ -13,7 +13,7 @@ Extract Command Line Args
 """
 parser = argparse.ArgumentParser(description="Browse a few sites and export a HAR.")
 parser.add_argument("--browser", choices=["chrome", "firefox"],
-                        help="Which browser to run")
+                        required=True, help="Which browser to run")
 args = parser.parse_args()  
 
 print(f"Browser: {args.browser}")
