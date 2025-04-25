@@ -16,7 +16,7 @@ class HAR_Exporter:
         # list all profiles
         selenium_options = {"enable_har": True}
 
-        if (browser == "Chrome"):
+        if (browser == "chrome"):
             chrome_options = webdriver.ChromeOptions()
 
             if choose_profile:
@@ -32,7 +32,7 @@ class HAR_Exporter:
                 options=chrome_options, seleniumwire_options=selenium_options
             )
             self.start_time = time.localtime()
-        elif (browser == "Firefox"):
+        elif (browser == "firefox"):
             firefox_options = webdriver.FirefoxOptions()
             self.driver = webdriver.Firefox(
                 options=firefox_options, seleniumwire_options=selenium_options
