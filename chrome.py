@@ -1,22 +1,26 @@
-from selenium import webdriver
+# from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+# from webdriver_manager.chrome import ChromeDriverManager
 import time
+from har_exporter import HAR_Exporter
 
 """
 Set up Chrome Driver
 """
-service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service)
+# service = Service(ChromeDriverManager().install())
+# driver = webdriver.Chrome(service=service)
+driver = HAR_Exporter(
+    browser="Chrome",
+    choose_profile=False
+)  # Change it to True to select an existing profile
+
 
 """
 Youtube
 """
-driver.get("https://www.youtube.com")
-
-time.sleep(3) # wait for page to load
+driver.get("https://www.youtube.com", 5)
 
 # search for videos on cats
 search_box = driver.find_element(By.NAME, 'search_query')
@@ -76,6 +80,7 @@ for url in article_urls:
     driver.execute_script("window.open('{}','_blank');".format(url))
     time.sleep(5)  # Brief pause between opening tabs
 
+driver.export_har()
 
 """
 Close Browser

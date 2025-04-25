@@ -5,32 +5,39 @@ import shutil
 import json
 
 
-class HAR_chrome:
+class HAR_Exporter:
     user_data_dir = os.path.expanduser("~/Library/Application Support/Google/Chrome")
     user_profile = None
 
     driver = None
     start_time = None
 
-    def __init__(self, choose_profile=False):
+    def __init__(self, browser, choose_profile=False):
         # list all profiles
-
-        chrome_options = webdriver.ChromeOptions()
         selenium_options = {"enable_har": True}
 
-        if choose_profile:
-            self.select_profile()
+        if (browser == "Chrome"):
+            chrome_options = webdriver.ChromeOptions()
 
-        if self.user_profile:
-            print(f"Using profile: {self.user_profile}")
-            print(f"User data directory: {self.user_data_dir}")
-            chrome_options.add_argument(f"--user-data-dir={self.user_data_dir}")
-            chrome_options.add_argument(f"--profile-directory={self.user_profile}")
+            if choose_profile:
+                self.select_profile()
 
-        self.driver = webdriver.Chrome(
-            options=chrome_options, seleniumwire_options=selenium_options
-        )
-        self.start_time = time.localtime()
+            if self.user_profile:
+                print(f"Using profile: {self.user_profile}")
+                print(f"User data directory: {self.user_data_dir}")
+                chrome_options.add_argument(f"--user-data-dir={self.user_data_dir}")
+                chrome_options.add_argument(f"--profile-directory={self.user_profile}")
+
+            self.driver = webdriver.Chrome(
+                options=chrome_options, seleniumwire_options=selenium_options
+            )
+            self.start_time = time.localtime()
+        elif (browser == "Firefox"):
+            firefox_options = webdriver.FirefoxOptions()
+            self.driver = webdriver.Firefox(
+                options=firefox_options, seleniumwire_options=selenium_options
+            )
+            self.start_time = time.localtime()
 
     def select_profile(self):
         # Set the path to your Chrome user data directory
@@ -113,6 +120,17 @@ class HAR_chrome:
         self.driver.get(url)
         print(f"Waiting for {wait_time} seconds on {url}")
         time.sleep(wait_time)
+
+    def find_element(self, by, val):
+        item = self.driver.find_element(by, val)
+        return item
+    
+    def find_elements(self, by, val):
+        item = self.driver.find_elements(by, val)
+        return item
+    
+    def execute_script(self, cmd):
+        self.driver.execute_script(cmd)
 
     def quit(self):
         self.driver.quit()

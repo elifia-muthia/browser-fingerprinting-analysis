@@ -1,7 +1,7 @@
 import time, pathlib
-from har_chrome import HAR_chrome
+from har_exporter import HAR_Exporter
 
-chrome = HAR_chrome(
+chrome = HAR_Exporter(browser="Chrome",
     choose_profile=False
 )  # Change it to True to select an existing profile
 
