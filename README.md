@@ -1,6 +1,6 @@
 # browser-fingerprinting-analysis
 
-Running browser-scripts
+## Run Browser Scripts to launch selenium script and collect HAR files
 
 For Chrome:
 ```
